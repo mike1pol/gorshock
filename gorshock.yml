@@ -1,0 +1,45 @@
+- hosts: 192.168.0.105
+  user: pi
+  gather_facts: no
+  become: true
+  tasks:
+    - name: 'Configure WIFI'
+      copy: src=./wpa_supplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf mode=0600
+
+    - name: 'Update APT package cache'
+      action: apt update_cache=yes
+
+    - name: 'Upgrade APT to the lastest packages'
+      action: apt upgrade=safe
+
+    - name: 'Update hostname'
+      shell: echo gorshock > /etc/hostname
+
+    - name: 'Update hostname'
+      shell: echo '127.0.0.1       gorshock' >> /etc/hosts
+
+    - name: Install the package "mpd"
+      apt:
+        name: mpd
+        state: present
+
+    - name: Install the package "mpc"
+      apt:
+        name: mpc
+        state: present
+
+    - name: Install the package "shairport-sync"
+      apt:
+        name: shairport-sync
+        state: present
+
+    - name: Install the package "vim"
+      apt:
+        name: vim
+        state: present
+
+    - name: 'Configure shairport-sync'
+      copy: src=./shairport-sync dest=/etc/default/shairport-sync
+
+    - name: 'restart shairport-sync'
+      shell: service shairport-sync restart

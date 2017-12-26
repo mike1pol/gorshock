@@ -1,0 +1,1 @@
+DAEMON_ARGS="-B \"/usr/bin/mpc stop\" -E \"/usr/bin/mpc play\" -w -v"
